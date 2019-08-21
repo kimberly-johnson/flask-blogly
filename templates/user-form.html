@@ -1,7 +1,16 @@
+{% extends 'base.html' %}
 
-<h1>Users</h1>
-<form action="/users">
-    <span>First name</span><input type="text" name='first_name'>
-    <span>Last name</span><input type="text" name='last_name'>
-    <span>Image URL</span><input type="text" name='image_url'>
- </form>
+{% block user_form %}
+
+<div class="container">
+    <h1>Create a user</h1>
+    <form action="/add-user-data">
+        <p>First name</p><input type="text" name='first_name'>
+        <p>Last name</p><input type="text" name='last_name'>
+        <p>Image URL</p><input type="text" name='image_url'>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+</div>
+{% endblock %}
