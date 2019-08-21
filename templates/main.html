@@ -6,7 +6,7 @@
   <ul>
     {% for user in users %}
     <li>
-      <img src="{{ user.image_url }}" alt=""><a href="{{ user.id }}">{{user.first_name}}</a></li>
+      <img src="{{ user.image_url }}" alt=""><a href="users/{{ user.id }}">{{user.first_name}}</a></li>
     {% endfor %}
   </ul>
 
