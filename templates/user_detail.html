@@ -5,7 +5,7 @@
 <div class="container">
 <img src="{{ user.image_url }}" alt="">
 <p>{{ user.first_name }} {{ user.last_name }}</p>
-<form action="users/{{ user.id }}/edit">
+<form action="{{ user.id }}/edit">
     <button type="submit">Edit</button>
   </form>
   <form action="{{ user.id }}/delete" method="post">
