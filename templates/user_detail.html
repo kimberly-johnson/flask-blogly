@@ -8,7 +8,15 @@
     <div class="card-body">
       <h1>{{ user.first_name }} {{ user.last_name }}</h1>
       <a href="{{ user.id }}/edit"><button class="btn btn-success">Edit</button></a>
-      <a href="{{ user.id }}/delete"><button class="btn btn-danger">Cancel</button></a>
+      <form method="post" action="{{ user.id }}/delete">
+        <button class="btn btn-danger">Delete</button>
+      </form>
+
+      <h3>Posts</h3>
+      <ul>
+       
+
+      <a href="/users/{{user.id}}/posts/new"><button class="btn btn-primary">Add Post</button></a>
     </div>
   </div>
 </div>

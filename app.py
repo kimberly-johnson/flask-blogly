@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, request, render_template, redirect
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -42,7 +42,6 @@ def show_user():
     return render_template('user_form.html')
 
 
-
 @app.route('/users/<int:id>')
 def show_user_profile(id):
     """displaying user info on user detail page"""
@@ -51,6 +50,7 @@ def show_user_profile(id):
     first_name = detail.first_name
     last_name = detail.last_name
     image_url = detail.image_url
+
 
     return render_template("user_detail.html", user=detail, first_name=first_name, last_name=last_name, image_url=image_url)
 
@@ -85,3 +85,19 @@ def edit_user_info(id):
 
 
     return render_template('edit_user.html', id=id, first_name=user.first_name, last_name=user.last_name, image_url=user.image_url)
+
+@app.route('/users/<int:user_id>/posts/new', methods=["POST", "GET"])
+def post_form(user_id):
+
+    if request.method == "POST":
+        title = request.form['title']
+        content = request.form['content']
+
+        post = Post(title=title,
+                    content=content, user_id=user_id)
+
+        db.session.add(post)
+        db.session.commit()
+        return redirect("/")
+
+    return render_template('post-form.html', user_id=user_id)
