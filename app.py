@@ -20,16 +20,38 @@ def show_form():
 @app.route("/users")
 def show_user():
     """Render user-form"""
-    return render_template('user-form.html')
+    return render_template('user_form.html')
 
+@app.route('/add-user-data', methods=["POST"])
+def add_user_data():
+    """adds user to database"""
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    image_url = request.form['image_url']
 
-# @app.route('/')
-    # first_name = request.form['first_name']
-    # last_name = request.form['last_name']
-    # image_url = request.form['image_url']
+    user = User(first_name=first_name, last_name=last_name, image_url=image_url)
+    db.session.add(user)
+    db.session.commit()
 
-    # user = User(first_name='first_name', last_name='last_name', image_url='image_url')
-    # db.session.add(user)
-    # db.commit()
+    return redirect("/")
 
-    # return None
+@app.route('/users/<int:id>')
+def show_user_profile(id):
+    """displaying user info on user detail page"""
+    detail = User.query.get(id)
+
+    first_name = detail.first_name
+    last_name = detail.last_name
+    image_url = detail.image_url
+
+    return render_template("user_detail.html", user=detail, first_name=first_name, last_name=last_name, image_url=image_url)
+
+@app.route("/users/<int:id>/delete", methods=["POST"])
+def delete_user(id):
+    """delete user"""
+
+    d_user = User.query.get(id)
+    db.session.delete(d_user)
+    db.session.commit()
+
+    return redirect("/")
