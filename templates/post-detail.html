@@ -2,9 +2,18 @@
 {% block post_detail %}
 
 <div class="container">
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
-    <p>RANDOM AUTHOR</p>
+    <div class="card" style="width: 50rem; height: 30rem; border: None">
+        <div class="card-body">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.content }}</p>
+            <p>BY: {{ user.get_full_name()}}</p>
+
+            <a href="/users/{{user.id}}"><button class="btn btn-light">Cancel</button></a>
+            <br>
+            <a href="/posts/{{post.id}}/edit"><button class="btn btn-primary">Edit</button></a>
+            <form action="/posts/{{post.id}}/delete" method="post"><button type="submit" class="btn btn-danger">Delete</button></form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
