@@ -35,7 +35,7 @@ class Post(db.Model):
     """Post."""
     __tablename__ = "posts"
 
-    post_id = db.Column(db.Integer, 
+    id = db.Column(db.Integer, 
                     primary_key=True, 
                     autoincrement=True)
     title = db.Column(db.String(50),

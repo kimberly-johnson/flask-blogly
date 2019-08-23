@@ -42,17 +42,24 @@ def show_user():
     return render_template('user_form.html')
 
 
-@app.route('/users/<int:id>')
+@app.route('/users/<int:id>', methods=["POST", "GET"])
 def show_user_profile(id):
     """displaying user info on user detail page"""
     detail = User.query.get_or_404(id)
+    user_id = detail.id
+    user_posts = Post.query.filter_by(user_id=user_id).all()
 
     first_name = detail.first_name
     last_name = detail.last_name
     image_url = detail.image_url
 
+    return render_template("user_detail.html", user=detail, first_name=first_name, last_name=last_name, image_url=image_url, posts=user_posts)
 
-    return render_template("user_detail.html", user=detail, first_name=first_name, last_name=last_name, image_url=image_url)
+@app.route('/posts/<int:post_id>')
+def show_post_detail(post_id):
+    """Show post id"""
+    cur_post = Post.query.get_or_404(post_id)
+    return render_template("post-detail.html", post=cur_post)
 
 
 @app.route("/users/<int:id>/delete", methods=["POST"])
@@ -88,16 +95,17 @@ def edit_user_info(id):
 
 @app.route('/users/<int:user_id>/posts/new', methods=["POST", "GET"])
 def post_form(user_id):
+    user = User.query.get_or_404(user_id)
 
     if request.method == "POST":
         title = request.form['title']
         content = request.form['content']
 
         post = Post(title=title,
-                    content=content, user_id=user_id)
+                    content=content, user=user)
 
         db.session.add(post)
         db.session.commit()
-        return redirect("/")
+        return redirect(f'/users/{user.id}')
 
     return render_template('post-form.html', user_id=user_id)
